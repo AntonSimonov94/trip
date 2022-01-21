@@ -22,7 +22,7 @@
     <div class="jumbotron">
         @yield('news')
     </div>
-@yield('content')
+    @yield('content')
 
 
 </main>
