@@ -4,6 +4,8 @@
     <div class="container">
         <h1 class="display-3">Актуальные новости по категориям</h1>
         <p>Краткое описание.</p>
+<x-form></x-form>
+
     </div>
 @endsection
 
