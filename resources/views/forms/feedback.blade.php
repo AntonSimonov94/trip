@@ -7,7 +7,7 @@
 
 @section('content')
 
-    <form method="post" style="width:500px;margin: 0 auto;" action="{{route('forms.index.store')}}">
+    <form method="post" style="width:500px;margin: 0 auto;" action="{{route('forms.feedback.store')}}">
         @csrf
         <div class="form-group" style="width: 400px;">
             <label for="title">Имя пользователя</label>

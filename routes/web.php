@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\Admin\AdminController as AdminController;
 use App\Http\Controllers\Admin\AdminNewsController as AdminNewsController;
 use App\Http\Controllers\Admin\AdminCatalogController as AdminCatalogController;
+use App\Http\Controllers\FormFeedbackController as FormFeedbackController;
+use App\Http\Controllers\FormOrderController as FormOrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +35,9 @@ Route::get('/catalog/{name}', [NewsController::class, 'category'])
     ->name('news.category');
 Route::get('/catalog/{name}/{des}', [NewsController::class, 'news'])
     ->name('news.news');
-Route::get('/feedback', fn () => view('news.formfeedback'))
-    ->name('formfeedback');
-Route::get('/order', fn () => view('news.formorder'))
-    ->name('order');
+
+Route::group(['as' => 'forms.'], function() {
+Route::view('/feedback', 'forms.index')->name('forms.feedback.index');
+Route::resource('/feedback', FormFeedbackController::class);
+Route::resource('/order', FormOrderController::class);
+});
