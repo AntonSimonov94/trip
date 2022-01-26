@@ -44,5 +44,6 @@ class NewsTest extends TestCase
         $response = $this->get('/feedback');
 
         $response->assertStatus(200);
+
     }
 }

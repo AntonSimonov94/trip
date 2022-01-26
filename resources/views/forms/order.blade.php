@@ -12,6 +12,7 @@
         @endforeach
     @endif
 
+
     <form method="post" style="width:500px;margin: 0 auto;" action="{{route('forms.order.store')}}">
         @csrf
         <div class="form-group" style="width: 400px;">

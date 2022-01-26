@@ -26,6 +26,7 @@ class FormOrderController extends Controller
         return view('forms.order');
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
