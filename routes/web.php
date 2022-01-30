@@ -33,7 +33,7 @@ Route::get('/catalog', [NewsController::class, 'index'])
     ->name('news.index');
 Route::get('/catalog/{name}', [NewsController::class, 'category'])
     ->name('news.category');
-Route::get('/catalog/{name}/{des}', [NewsController::class, 'news'])
+Route::get('/catalog/{name}/{id}', [NewsController::class, 'news'])
     ->name('news.news');
 
 Route::group(['as' => 'forms.'], function() {

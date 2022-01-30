@@ -1,18 +1,11 @@
 @extends('layouts.main')
 
 @section('news')
+    @foreach($des as $news => $main)
     <div class="container">
-        <h1 class="display-3">Актуальные новости про {{$news}}</h1>
-        @foreach ($catalog as $category => $products)
-            @if ($name == $category)
-                @php $n=1 @endphp
-                @foreach ($products as $product => $des)
-                    @if ($news == $product)
-                        <p>{{ $des }}</p>
-                    @endif
-                @endforeach
-            @endif
-        @endforeach
+        <h1 class="display-3">{{$main->title}}</h1>
+                        <p>{{ $main->description }}</p>
     </div>
+    @endforeach
 @endsection
 

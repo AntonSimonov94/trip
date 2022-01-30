@@ -2,27 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalog;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $news = $this->getNews();
+        $news = new Catalog();
+        $news = $news->getNews();
 
         return view('news.index', ['catalog' => $news]);
     }
 
-    public function category($name)
+    public function category($id)
     {
-        $news = $this->getNews();
-        return view('news.category', ['catalog' => $news, 'name' => $name]);
+        $news = new Catalog();
+        $news = $news->getNewsbyId($id);
+        return view('news.category', ['name' => $news, 'id' => $id]);
     }
 
-    public function news($name, $des)
+    public function news($name,$id)
     {
-        $news = $this->getNews();
+        $news = new Product();
+        $news = $news->getNewsbyId($id);
 
-        return view('news.news', ['catalog' => $news, 'name' => $name, 'news' => $des]);
+        return view('news.news', ['name'=>$name,'des' => $news]);
     }
+
 }
