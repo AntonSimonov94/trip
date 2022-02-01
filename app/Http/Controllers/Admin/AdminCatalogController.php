@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Catalog;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class AdminCatalogController extends Controller
@@ -14,7 +16,8 @@ class AdminCatalogController extends Controller
      */
     public function index()
     {
-        return view('admin.catalog.index');
+        $catalog = Catalog::all();
+        return view('admin.catalog.index', ['catalogsList' => $catalog]);
     }
 
     /**
@@ -24,7 +27,8 @@ class AdminCatalogController extends Controller
      */
     public function create()
     {
-        //
+        $catalogs = Catalog::all();
+        return view('admin.catalog.create',['catalogs' => $catalogs]);
     }
 
     /**
@@ -35,16 +39,25 @@ class AdminCatalogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['title','description','created_at']) + [
+                'slug' => \Str::slug($request->input('title'))];
+
+        $created = Catalog::create($data);
+            if($created) {
+                return redirect()->route('admin.catalog.index')
+                    ->with('success', 'Запись успешно добавлена');
+            }
+        return back()->with('error', 'Не удалось добавить запись')
+            ->withInput();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Catalog $catalogs
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Catalog $catalogs)
     {
         //
     }
@@ -52,33 +65,51 @@ class AdminCatalogController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Catalog $catalogs
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Catalog $catalog)
     {
-        //
+
+        return view('admin.catalog.edit', [
+            'catalogs' => $catalog
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param Catalog $catalogs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Catalog $catalog)
     {
-        //
+        $data = $request->only(['title','description']) + [
+                'slug' => \Str::slug($request->input('title'))];
+
+        $updated = $catalog->fill($data)->save();
+        if($updated) {
+
+            \DB::table('catalogs_has_news')
+                ->where('catalog_id', 5)
+                ->delete();
+
+            return redirect()->route('admin.catalog.index')
+                ->with('success', 'Запись успешно обновлена');
+        }
+
+        return back()->with('error', 'Не удалось обновить запись')
+            ->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Catalog $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Catalog $news)
     {
         //
     }

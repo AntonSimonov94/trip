@@ -20,10 +20,14 @@ class CatalogsSeeder extends Seeder
     public function getData(): array
     {
         $data=[];
+
         $faker = Factory::create();
+
         for($i=0; $i < 5; $i++) {
+            $title = $faker->sentence(5);
             $data[] = [
                 'title' => $faker->sentence(5),
+                'slug'   => \Str::slug($title),
                 'description'  => $faker->text(100),
                 'isImage' => $faker->boolean()
             ];

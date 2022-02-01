@@ -3,32 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Catalog;
-use App\Models\Product;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $news = new Catalog();
-        $news = $news->getNews();
+        $news = Catalog::select(Catalog::$availableFields)->get();
 
         return view('news.index', ['catalog' => $news]);
     }
 
-    public function category($id)
+    public function category(Catalog $catalog)
     {
-        $news = new Catalog();
-        $news = $news->getNewsbyId($id);
-        return view('news.category', ['name' => $news, 'id' => $id]);
+        return view('news.category', ['newsList' => $catalog]);
     }
 
-    public function news($name,$id)
+    public function news(Catalog $catalog,News $news)
     {
-        $news = new Product();
-        $news = $news->getNewsbyId($id);
-
-        return view('news.news', ['name'=>$name,'des' => $news]);
+        return view('news.news', ['catalog'=>$catalog,'news' => $news]);
     }
 
 }

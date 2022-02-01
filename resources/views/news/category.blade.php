@@ -11,19 +11,17 @@
     <div class="container">
         <!-- Example row of columns -->
         <div class="row">
-            @foreach ($name as $products => $product)
-                @foreach ($product as $prod => $pr)
+                @foreach ($newsList->catalogs as $news)
                         <div class="col-md-4">
                             <h2>
-                                <a href="{{route('news.news', ['name' => $id,'id' => $pr->id])}}">{{$pr->title}}</a>
+                                <a href="{{route('news.news', ['catalog' => $newsList, 'news' => $news])}}">{{$news->title}}</a>
                             </h2>
-                            <p>Новости про {{$pr->title}}. </p>
+                            <p>Новости про {{$news->title}}. </p>
                             <p><a class="btn btn-secondary"
-                                  href="{{route('news.news', ['name' => $id, 'id' => $pr->id])}}" role="button">Подробнее
+                                  href="{{route('news.news', ['catalog' => $newsList, 'news' => $news])}}" role="button">Подробнее
                                     &raquo;</a></p>
                         </div>
                 @endforeach
-            @endforeach
         </div>
 
         <hr>

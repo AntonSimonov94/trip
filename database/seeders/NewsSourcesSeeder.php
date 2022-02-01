@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 
-class CatalogProductSeeder extends Seeder
+class NewsSourcesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class CatalogProductSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('catalogs_has_products')->insert($this->getData());
+        \DB::table('news_has_sources')->insert($this->getData());
     }
 
     public function getData():array
@@ -23,9 +23,8 @@ class CatalogProductSeeder extends Seeder
         $faker = Factory::create();
         for($i=0; $i < 10; $i++) {
             $data[] = [
-                'catalog_id' => random_int(1,5),
-                'product_id' => random_int(1,10),
-                'source_id'  => random_int(1,10)
+                'news_id' => random_int(1,10),
+                'sources_id' => random_int(1,10)
             ];
         }
         return $data;

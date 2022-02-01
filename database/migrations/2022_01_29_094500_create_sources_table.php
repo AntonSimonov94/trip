@@ -15,6 +15,7 @@ class CreateSourcesTable extends Migration
     {
         Schema::create('sources', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 100);
             $table->string('author', 100);
             $table->string('country', 100);
             $table->bigInteger('year')->nullable();

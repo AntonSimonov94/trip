@@ -10,20 +10,18 @@ class Catalog extends Model
     use HasFactory;
 
     protected $table = 'catalogs';
-    protected $reltable = 'catalogs_has_products';
-    protected $prtable = 'products';
+    public static $availableFields = ['id', 'title', 'description', 'created_at'];
 
-    public function getNews(){
 
-        return \DB::select("SELECT id, title, description from {$this->table}");
+    protected $fillable = [
+        'title',
+        'description',
+        'slug'
+    ];
+
+
+    public function catalogs() {
+        return $this->belongsToMany(News::class,'catalogs_has_news', 'catalog_id','news_id');
     }
 
-    public function getNewsbyId(int $id){
-
-        $product = \DB::select("SELECT product_id from {$this->reltable} where catalog_id = $id");
-        foreach ($product as $id) {
-                $productlist[] = \DB::select("SELECT id, title, description from {$this->prtable} where id = $id->product_id");
-        }
-        return $productlist;
-    }
 }

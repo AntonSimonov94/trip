@@ -16,9 +16,9 @@
         <div class="row">
             @forelse ($catalog as $category)
                 <div class="col-md-4">
-                    <h2><a href="{{route('news.category', ['name' => $category->id]) }}">{{ $category->title }}</a></h2>
+                    <h2><a href="{{route('news.category', ['catalog' => $category]) }}">{{ $category->title }}</a></h2>
                     <p>Новости про {{$category->title}}. </p>
-                    <p><a class="btn btn-secondary" href="{{route('news.category', ['name' => $category->id]) }}"
+                    <p><a class="btn btn-secondary" href="{{route('news.category', ['catalog' => $category]) }}"
                           role="button">Подробнее &raquo;</a></p>
                 </div>
             @empty

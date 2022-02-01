@@ -16,6 +16,7 @@ class CreateCatalogsTable extends Migration
         Schema::create('catalogs', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
+            $table->string('slug', 255);
             $table->text('description',)->nullable();
             $table->boolean('isImage')->default(false);
             $table->string('sourceImage', 200)->nullable();

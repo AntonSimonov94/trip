@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminNewsController as AdminNewsController;
 use App\Http\Controllers\Admin\AdminCatalogController as AdminCatalogController;
 use App\Http\Controllers\FormFeedbackController as FormFeedbackController;
 use App\Http\Controllers\FormOrderController as FormOrderController;
+use App\Http\Controllers\Admin\AdminSourcesController as AdminSourcesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +25,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::view('/', 'admin.index')->name('admin.index');
     Route::resource('/catalog', AdminCatalogController::class);
     Route::resource('/news', AdminNewsController::class);
+    Route::resource('/sources', AdminSourcesController::class);
 
 });
 
@@ -31,9 +33,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
 Route::get('/catalog', [NewsController::class, 'index'])
     ->name('news.index');
-Route::get('/catalog/{name}', [NewsController::class, 'category'])
+Route::get('/catalog/{catalog}', [NewsController::class, 'category'])
     ->name('news.category');
-Route::get('/catalog/{name}/{id}', [NewsController::class, 'news'])
+Route::get('/catalog/{catalog}/{news}', [NewsController::class, 'news'])
     ->name('news.news');
 
 Route::group(['as' => 'forms.'], function() {

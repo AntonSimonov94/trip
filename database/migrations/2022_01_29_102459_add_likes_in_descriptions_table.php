@@ -13,7 +13,7 @@ class AddLikesInDescriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('news', function (Blueprint $table) {
            $table->integer('likes')->default(0)->after('sourceImage');
         });
     }
@@ -25,7 +25,7 @@ class AddLikesInDescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('news', function (Blueprint $table) {
             $table->dropColumn('likes');
         });
     }

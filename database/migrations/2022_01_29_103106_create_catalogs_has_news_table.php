@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCatalogsHasProductsTable extends Migration
+class CreateCatalogsHasNewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,17 @@ class CreateCatalogsHasProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('catalogs_has_products', function (Blueprint $table) {
+        Schema::create('catalogs_has_news', function (Blueprint $table) {
             $table->foreignId('catalog_id')
                 ->constrained('catalogs')
                 ->cascadeOnDelete();
 
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')
+            $table->unsignedBigInteger('news_id');
+            $table->foreign('news_id')
                 ->references('id')
-                ->on('products')
+                ->on('news')
                 ->cascadeOnDelete();
 
-            $table->unsignedBigInteger('source_id');
-            $table->foreign('source_id')
-                ->references('id')
-                ->on('sources')
-                ->cascadeOnDelete();
         });
     }
 
@@ -39,6 +34,6 @@ class CreateCatalogsHasProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('catalogs_has_products');
+        Schema::dropIfExists('catalogs_has_news');
     }
 }
