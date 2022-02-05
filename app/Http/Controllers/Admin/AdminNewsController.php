@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\UpdateRequest;
 use App\Models\Catalog;
 use App\Models\News;
 use App\Models\Sources;
@@ -39,24 +41,18 @@ class AdminNewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['title','producer','description']) + [
+        $data = $request->validated() + [
                 'slug' => \Str::slug($request->input('title'))];
-
         $created = News::create($data);
-        if($created) {
-            foreach ($request->input('news') as $catalog) {
-                \DB::table('catalogs_has_news')->insert([
-                    'catalog_id' => intval($catalog),
-                    'news_id' => $created->id
-                ]);}
-                foreach ($request->input('sources') as $source) {
-                    \DB::table('news_has_sources')->insert([
-                        'sources_id' => intval($source),
-                        'news_id' => $created->id
-                    ]);
-            }
+
+if($created) {
+
+        $created->catalog()->attach($request->input('catalogs'));
+
+        $created->source()->attach($request->input('sources'));
+
             return redirect()->route('admin.news.index')
                 ->with('success', 'Запись успешно добавлена');
         }
@@ -91,12 +87,17 @@ class AdminNewsController extends Controller
             ->get()
             ->map(fn($item) => $item->catalog_id)->toArray();
 
+        $selectSources = \DB::table('news_has_sources')
+            ->where('news_id', $news->id)
+            ->get()
+            ->map(fn($item) => $item->sources_id)->toArray();
 
         return view('admin.news.edit', [
             'news' => $news,
             'catalogs' => $catalogs,
             'selectCatalogs' => $selectCatalogs,
-            'sources' => $sources
+            'sources' => $sources,
+            'selectSources' => $selectSources
         ]);
     }
 
@@ -107,9 +108,9 @@ class AdminNewsController extends Controller
      * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateRequest $request, News $news)
     {
-        $data = $request->only(['title','producer','description']) + [
+        $data = $request->validated() + [
                 'slug' => \Str::slug($request->input('title'))];
 
 
@@ -120,11 +121,13 @@ class AdminNewsController extends Controller
                 ->where('news_id', $news->id)
                 ->delete();
 
-            foreach ($request->input('news') as $catalog) {
-                \DB::table('catalogs_has_news')->insert([
-                    'catalog_id' => intval($catalog),
-                    'news_id' => $news->id
-                ]);}
+            $news->catalog()->attach($request->input('catalogs'));
+
+            \DB::table('news_has_sources')
+                ->where('news_id', $news->id)
+                ->delete();
+
+            $news->source()->attach($request->input('sources'));
 
             return redirect()->route('admin.news.index')
                 ->with('success', 'Запись успешно обновлена');

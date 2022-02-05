@@ -33,8 +33,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
 Route::get('/catalog', [NewsController::class, 'index'])
     ->name('news.index');
-Route::get('/catalog/{catalog}', [NewsController::class, 'category'])
-    ->name('news.category');
+Route::get('/catalog/{catalog}', [NewsController::class, 'catalog'])
+    ->name('news.catalog');
 Route::get('/catalog/{catalog}/{news}', [NewsController::class, 'news'])
     ->name('news.news');
 

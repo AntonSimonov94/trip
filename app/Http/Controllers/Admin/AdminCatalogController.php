@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Catalog\CreateRequest;
+use App\Http\Requests\Catalog\UpdateRequest;
 use App\Models\Catalog;
 use App\Models\News;
 use Illuminate\Http\Request;
@@ -37,9 +39,9 @@ class AdminCatalogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['title','description','created_at']) + [
+        $data = $request->validated() + [
                 'slug' => \Str::slug($request->input('title'))];
 
         $created = Catalog::create($data);
@@ -83,16 +85,16 @@ class AdminCatalogController extends Controller
      * @param Catalog $catalogs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Catalog $catalog)
+    public function update(UpdateRequest $request, Catalog $catalog)
     {
-        $data = $request->only(['title','description']) + [
+        $data = $request->validated() + [
                 'slug' => \Str::slug($request->input('title'))];
 
         $updated = $catalog->fill($data)->save();
         if($updated) {
 
             \DB::table('catalogs_has_news')
-                ->where('catalog_id', 5)
+                ->where('catalog_id', $catalog->id)
                 ->delete();
 
             return redirect()->route('admin.catalog.index')

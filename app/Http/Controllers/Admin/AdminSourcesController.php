@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Sources\CreateRequest;
+use App\Http\Requests\Sources\UpdateRequest;
 use App\Models\Catalog;
 use App\Models\News;
 use App\Models\Sources;
@@ -28,18 +30,19 @@ class AdminSourcesController extends Controller
      */
     public function create()
     {
-        return view('admin.sources.create');
+        $sources = Sources::all();
+        return view('admin.sources.create', ['sources' => $sources]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['title','author','country','year']);
+        $data = $request->validated();
         $created = Sources::create($data);
         if($created) {
             return redirect()->route('admin.sources.index')
@@ -52,10 +55,10 @@ class AdminSourcesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Sources $source
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Sources $source)
     {
         //
     }
@@ -63,33 +66,49 @@ class AdminSourcesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Sources $source
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Sources $source)
     {
-        //
+        return view('admin.sources.edit', [
+            'sources' => $source
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateRequest $request
+     * @param Sources $source
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Sources $source)
     {
-        //
+       $data = $request->validated();
+
+       $updated = $source->fill($data)->save();
+        if($updated) {
+
+            \DB::table('news_has_sources')
+                ->where('sources_id', $source->id)
+                ->delete();
+
+            return redirect()->route('admin.sources.index')
+                ->with('success', 'Запись успешно обновлена');
+        }
+
+        return back()->with('error', 'Не удалось обновить запись')
+            ->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Sources $source
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Sources $source)
     {
         //
     }

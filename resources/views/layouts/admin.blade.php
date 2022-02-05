@@ -15,28 +15,46 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{{route('news.start')}}">Новости</a>
+    <div>
+    <a class="navbar-brand "  href="{{route('news.start')}}">User</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    </div>
+    <div  id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{route('news.index')}}">Каталог <span class="sr-only">(current)</span></a>
+                <a class="nav-link " @if(request()->routeIs('admin.catalog.index')) style="color: green" @endif href="{{route('admin.catalog.index')}}">Каталог<span class="sr-only">(current)</span></a>
             </li>
         </ul>
+    </div>
+    <div  id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" @if(request()->routeIs('admin.news.index')) style="color: green" @endif href="{{route('admin.news.index')}}">Новости<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" @if(request()->routeIs('admin.sources.index')) style="color: green" @endif href="{{route('admin.sources.index')}}">Источники<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+    <div style="position:absolute; right: 0px; margin-right: 30px;" >
         <form class="form-inline my-2 my-lg-0">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Добавить пользователя</button>
         </form>
     </div>
 </nav>
 
-<main role="main">
+<main role="main" >
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div class="jumbotron" >
+        <x-form></x-form>
         @yield('news')
     </div>
     @yield('content')

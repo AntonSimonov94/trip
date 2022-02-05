@@ -15,9 +15,9 @@ class NewsController extends Controller
         return view('news.index', ['catalog' => $news]);
     }
 
-    public function category(Catalog $catalog)
+    public function catalog(Catalog $catalog)
     {
-        return view('news.category', ['newsList' => $catalog]);
+        return view('news.catalog', ['newsList' => $catalog]);
     }
 
     public function news(Catalog $catalog,News $news)
