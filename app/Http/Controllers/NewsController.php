@@ -17,7 +17,14 @@ class NewsController extends Controller
 
     public function catalog(Catalog $catalog)
     {
-        return view('news.catalog', ['newsList' => $catalog]);
+        $selectNews = \DB::table('catalogs_has_news')
+            ->where('catalog_id', $catalog->id)
+            ->get()
+            ->map(fn($item) => $item->news_id);
+        foreach ($selectNews as $num){
+            $news[] = News::query()->where('id', $num)->get();
+        }
+        return view('news.catalog', ['catalog'=>$catalog,'newsLists' => $news]);
     }
 
     public function news(Catalog $catalog,News $news)

@@ -110,6 +110,12 @@ class AdminSourcesController extends Controller
      */
     public function destroy(Sources $source)
     {
-        //
+        try{
+            $source->delete();
+            return response()->json('ok');
+        }catch (\Exception $e) {
+            \Log::error('News error destroy', [$e]);
+            return response()->json('error', 400);
+        }
     }
 }

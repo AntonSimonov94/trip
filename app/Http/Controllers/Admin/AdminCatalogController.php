@@ -111,8 +111,15 @@ class AdminCatalogController extends Controller
      * @param Catalog $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Catalog $news)
+    public function destroy(Catalog $catalog)
     {
-        //
+
+        try{
+            $catalog->delete();
+            return response()->json('ok');
+        }catch (\Exception $e) {
+            \Log::error('News error destroy', [$e]);
+            return response()->json('error', 400);
+        }
     }
 }

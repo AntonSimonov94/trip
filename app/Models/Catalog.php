@@ -19,7 +19,6 @@ class Catalog extends Model
         'slug'
     ];
 
-
     public function catalogs(): BelongsToMany {
         return $this->belongsToMany(Catalog::class,'catalogs_has_news', 'catalog_id','news_id');
     }

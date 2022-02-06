@@ -143,8 +143,14 @@ if($created) {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        try{
+            $news->delete();
+            return response()->json('ok');
+        }catch (\Exception $e) {
+            \Log::error('News error destroy', [$e]);
+            return response()->json('error', 400);
+        }
     }
 }
