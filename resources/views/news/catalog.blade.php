@@ -1,9 +1,12 @@
 @extends('layouts.main')
 @section('news')
+    @if($newsList == [])
     <div class="container">
         <h1 class="display-3">Актуальные новости про</h1>
         <p>Краткое описание.</p>
     </div>
+    @else <h1>Нет новостей</h1>
+    @endif
 @endsection
 
 @section('content')
@@ -11,8 +14,8 @@
     <div class="container">
         <!-- Example row of columns -->
         <div class="row">
-                @foreach ($newsLists as $newsList =>$newsItems)
-                    @foreach($newsItems as $newsItem => $news)
+            @if($newsList !== [])
+                @foreach ($newsList as $news)
                         <div class="col-md-4">
                             <h2>
                                 <a href="{{route('news.news', ['catalog' => $catalog, 'news' => $news])}}">{{$news->title}}</a>
@@ -22,8 +25,9 @@
                                   href="{{route('news.news', ['catalog' => $catalog, 'news' => $news])}}" role="button">Подробнее
                                     &raquo;</a></p>
                         </div>
+
                 @endforeach
-                @endforeach
+                @endif
         </div>
 
         <hr>

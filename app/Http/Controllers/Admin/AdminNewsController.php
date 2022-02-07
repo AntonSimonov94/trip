@@ -121,7 +121,7 @@ if($created) {
                 ->where('news_id', $news->id)
                 ->delete();
 
-            $news->catalog()->attach($request->input('catalogs'));
+            $news->catalogs()->attach($request->input('catalogs'));
 
             \DB::table('news_has_sources')
                 ->where('news_id', $news->id)

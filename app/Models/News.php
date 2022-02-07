@@ -22,7 +22,7 @@ class News extends Model
         'likes'
     ];
 
-    public function catalog(): Relation
+    public function catalogs(): Relation
     {
         return $this->belongsToMany(Catalog::class, 'catalogs_has_news',
             'news_id', 'catalog_id');
