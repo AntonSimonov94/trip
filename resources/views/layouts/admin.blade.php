@@ -45,9 +45,34 @@
         </ul>
     </div>
     <div style="position:absolute; right: 0px; margin-right: 30px;" >
-        <form class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Добавить пользователя</button>
-        </form>
+        <ul class="navbar-nav ms-auto">
+            @guest
+                @if (Route::has('login'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Вход') }}</a>
+                    </li>
+                @endif
+
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                    </li>
+                @endif
+            @else
+                <li  class="nav-item">>
+                    <a class="nav-link" href="{{ route('account.logout') }}">
+                        {{ __('Выход') }}
+                    </a>
+
+                </li>
+                <li>
+                    <a class="nav-link" href="{{ route('admin.updateProfile') }}">
+                        {{ __('Редактировать') }}
+                    </a>
+                </li>
+
+            @endguest
+        </ul>
     </div>
 </nav>
 

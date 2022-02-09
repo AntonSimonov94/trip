@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\AdminCatalogController as AdminCatalogController;
 use App\Http\Controllers\FormFeedbackController as FormFeedbackController;
 use App\Http\Controllers\FormOrderController as FormOrderController;
 use App\Http\Controllers\Admin\AdminSourcesController as AdminSourcesController;
+use App\Http\Controllers\Account\IndexController as AccountController;
+use App\Http\Controllers\Admin\ProfileController as ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,16 +19,28 @@ use App\Http\Controllers\Admin\AdminSourcesController as AdminSourcesController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', fn () => view('news.start'))
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/start', fn () => view('news.start'))
     ->name('news.start');
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/account', AccountController::class)
+        ->name('account');
+
+    Route::get('/logout', function (){
+        Auth::logout();
+        return redirect()->route('login');
+    })->name('account.logout');
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function() {
     Route::view('/', 'admin.index')->name('admin.index');
     Route::resource('/catalog', AdminCatalogController::class);
     Route::resource('/news', AdminNewsController::class);
     Route::resource('/sources', AdminSourcesController::class);
-
+    Route::match(['post','get'], '/profile', [ProfileController::class, 'update'])->name('updateProfile');
+});
 });
 
 
@@ -43,3 +57,8 @@ Route::view('/feedback', 'forms.index')->name('forms.feedback.index');
 Route::resource('/feedback', FormFeedbackController::class);
 Route::resource('/order', FormOrderController::class);
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

@@ -11,8 +11,32 @@
                 <a class="nav-link" href="{{route('news.index')}}">Каталог <span class="sr-only">(current)</span></a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Войти</button>
-        </form>
+
     </div>
+    <div>
+    <ul class="navbar-nav ms-auto">
+        <!-- Authentication Links -->
+        @guest
+            @if (Route::has('login'))
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Вход') }}</a>
+                </li>
+            @endif
+
+            @if (Route::has('register'))
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                </li>
+            @endif
+        @else
+            <li  class="nav-item">>
+                <a class="nav-link" href="{{ route('account.logout') }}">
+                    {{ __('Выход') }}
+                </a>
+
+            </li>
+        @endguest
+    </ul>
+    </div>
+
 </nav>

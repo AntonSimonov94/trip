@@ -1,4 +1,6 @@
+
 @extends('layouts.main')
+
 
 @section('news')
     <div class="container">

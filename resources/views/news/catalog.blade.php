@@ -1,10 +1,10 @@
 @extends('layouts.main')
 @section('news')
-    @if($newsList == [])
-    <div class="container">
-        <h1 class="display-3">Актуальные новости про</h1>
-        <p>Краткое описание.</p>
-    </div>
+    @if($newsList)
+        <div class="container">
+            <h1 class="display-3">Актуальные новости про {{$catalog->title}}</h1>
+            <p>Краткое описание.</p>
+        </div>
     @else <h1>Нет новостей</h1>
     @endif
 @endsection
