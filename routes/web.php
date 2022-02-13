@@ -9,6 +9,8 @@ use App\Http\Controllers\FormOrderController as FormOrderController;
 use App\Http\Controllers\Admin\AdminSourcesController as AdminSourcesController;
 use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\Admin\ProfileController as ProfileController;
+use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\SocialController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +38,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function() {
     Route::view('/', 'admin.index')->name('admin.index');
+    Route::get('/parser', ParserController::class)->name('parser');
     Route::resource('/catalog', AdminCatalogController::class);
     Route::resource('/news', AdminNewsController::class);
     Route::resource('/sources', AdminSourcesController::class);
@@ -62,3 +65,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('auth/{network}/redirect', [SocialController::class, 'redirect'])->name('auth.redirect');
+    Route::get('auth/{network}/callback', [SocialController::class, 'callback'])->name('auth.callback');
+});

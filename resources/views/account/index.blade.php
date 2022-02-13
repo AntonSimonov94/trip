@@ -6,4 +6,11 @@
 <br>
 <a href="{{route('news.index')}}" style="color: green;">В новости</a>
 <br>
+
+@if (\Auth::user()->avatar)
+    <img src="{{\Auth::user()->avatar}}" alt="">
+    @endif
+
 <a href="{{route('account.logout')}}" style="color:green;">Выход</a>
+
+@include('layouts.parse')
