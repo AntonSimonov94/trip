@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\Parser;
+use App\Models\Parse;
 use Illuminate\Support\Facades\DB;
 use Laravie\Parser\Document;
 use Orchestra\Parser\Xml\Facade as XmlParser;
@@ -16,6 +17,7 @@ class ParserService implements Parser
      * @var Document
      */
     private Document $document;
+    private string $link;
 
     /**
      * @param string $link
@@ -24,12 +26,13 @@ class ParserService implements Parser
     public function setLink(string $link): Parser
     {
        $this->document = XmlParser::load($link);
+       $this->link = $link;
        return $this;
     }
 
-    public function parse(): array
+    public function parse(): void
     {
-        return $this->document->parse([
+        $data = $this->document->parse([
             'title' => [
                 'uses' => 'channel.title',
             ],
@@ -46,17 +49,8 @@ class ParserService implements Parser
                 'uses' => 'channel.item[title,link,guid,description,pubDate]'
             ],
         ]);
-
-    }
-    public function addParse(array $data){
-        foreach($data['news'] as $news)
-        DB::table('parses')->insert([
-            'title' => $news['title'],
-            'link' => $news['link'],
-            'guid' => $news['guid'],
-            'description' => $news['description'],
-            'pubDate' => $news['pubDate']
-        ]);
-
+        foreach ($data['news'] as $news) {
+            Parse::create($news);
+        }
     }
 }

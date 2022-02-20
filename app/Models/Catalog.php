@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Catalog extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected $table = 'catalogs';
-    public static $availableFields = ['id', 'title', 'description', 'created_at'];
+    public static $availableFields = ['id', 'title','image', 'description', 'created_at'];
 
 
     protected $fillable = [
         'title',
         'description',
-        'slug'
+        'slug',
+        'image'
     ];
 
 
@@ -24,4 +26,12 @@ class Catalog extends Model
         return $this->belongsToMany(News::class, 'catalogs_has_news');
     }
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 }

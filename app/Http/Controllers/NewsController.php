@@ -10,8 +10,8 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = Catalog::select(Catalog::$availableFields)->get();
-        return view('news.index', ['catalog' => $news]);
+        $catalog = Catalog::select(Catalog::$availableFields)->get();
+        return view('news.index', ['catalog' => $catalog]);
     }
 
     public function catalog(Catalog $catalog)

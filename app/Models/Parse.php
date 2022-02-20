@@ -10,12 +10,13 @@ class Parse extends Model
     use HasFactory;
 
     protected $table = 'parses';
-    public static $availableFields = ['id', 'title','link', 'description', 'pubDate','created_at'];
+    public static $availableFields = ['id', 'title','link','guid', 'description', 'pubDate','created_at'];
 
 
     protected $fillable = [
         'title',
         'link',
+        'guid',
         'description',
         'pubDate',
     ];

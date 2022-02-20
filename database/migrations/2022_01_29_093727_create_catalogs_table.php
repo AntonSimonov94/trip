@@ -19,7 +19,7 @@ class CreateCatalogsTable extends Migration
             $table->string('slug', 255);
             $table->text('description',)->nullable();
             $table->boolean('isImage')->default(false);
-            $table->string('sourceImage', 200)->nullable();
+            $table->string('image', 200)->nullable();
             $table->timestamps();
         });
     }

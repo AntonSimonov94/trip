@@ -7,6 +7,7 @@ use App\Http\Requests\Catalog\CreateRequest;
 use App\Http\Requests\Catalog\UpdateRequest;
 use App\Models\Catalog;
 use App\Models\News;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 
 class AdminCatalogController extends Controller
@@ -87,12 +88,13 @@ class AdminCatalogController extends Controller
      */
     public function update(UpdateRequest $request, Catalog $catalog)
     {
-        $data = $request->validated() + [
-                'slug' => \Str::slug($request->input('title'))];
+        $validated = $request->validated();
+        if($request->hasFile('image')) {
+            $validated['image'] = app(UploadService::class)->saveFile($request->file('image'));
+        }
 
-        $updated = $catalog->fill($data)->save();
+        $updated = $catalog->fill($validated)->save();
         if($updated) {
-
             \DB::table('catalogs_has_news')
                 ->where('catalog_id', $catalog->id)
                 ->delete();

@@ -18,6 +18,9 @@
         <div class="row">
             @forelse ($catalog as $category)
                 <div class="col-md-4">
+                    @if($category->image)
+                        <img src="{{ Storage::disk('public')->url($category->image) }}" alt="">
+                    @endif
                     <h2><a href="{{route('news.catalog', ['catalog' => $category]) }}">{{ $category->title }}</a></h2>
                     <p>Новости про {{$category->title}}. </p>
                     <p><a class="btn btn-secondary" href="{{route('news.catalog', ['catalog' => $category]) }}"

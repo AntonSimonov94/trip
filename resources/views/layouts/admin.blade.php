@@ -96,6 +96,8 @@
 <script src="{{asset('js/jquery-3.2.1.slim.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
 @stack('js')
 </body>
 </html>

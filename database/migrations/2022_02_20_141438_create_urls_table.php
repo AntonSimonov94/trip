@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParsesTable extends Migration
+class CreateUrlsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateParsesTable extends Migration
      */
     public function up()
     {
-        Schema::create('parses', function (Blueprint $table) {
+        Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('link',255);
-            $table->string('guid', 255)->nullable();
-            $table->text('description')->nullable();
-            $table->string('pubDate', 255)->nullable();
+            $table->string('urls');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateParsesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parses');
+        Schema::dropIfExists('urls');
     }
 }
